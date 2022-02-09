@@ -1,6 +1,8 @@
 package com.meme.security1.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -66,5 +68,17 @@ public class IndexController {
 		return "redirect:/loginForm";
 	} // join
 	
+	// SecurityConfig Class의 @EnableGlobalMethodSecurity(securedEnabled = true) 의 옵션
+	@Secured("ROLE_ADMIN")		// 단수
+	@GetMapping("/info")
+	public @ResponseBody String info() {
+		return "개인정보";
+	} // info
+	
+	@PreAuthorize("hasRole('ROLE_MANAGER') or hasRole('ROLE_ADMIN')")	// 다수
+	@GetMapping("/data")
+	public @ResponseBody String data() {
+		return "data info";
+	} // data
 
 } // end class
