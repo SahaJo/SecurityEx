@@ -25,6 +25,7 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
+
     
   security:
     oauth2:
@@ -36,13 +37,16 @@ spring:
             scope:
             - email
             - profile
+# /oauth2/authorization/google 이 주소를 동작하게 한다.
 
-#          facebook:
-#            client-id: 머시기
-#            client-secret: 머시기
-#            scope:
-#            - email
-#            - public_profile
+          facebook: 
+            client-id: 819654956095929
+            client-secret: ad3fe9f03a24f02333fff6758c383a77
+            scope:
+            - email
+            - public_profile
+
+
 #          
 #          # 네이버는 OAuth2.0 공식 지원대상이 아니라서 provider 설정이 필요하다.
 #          # 요청주소도 다르고, 응답 데이터도 다르기 때문이다.

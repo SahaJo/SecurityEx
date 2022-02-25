@@ -2,11 +2,15 @@ package com.meme.security1.config.auth;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import com.meme.security1.model.User;
+
+import lombok.Data;
 
 // 시큐리티가 /login 주소 요청이 오면 낚아채서  진행
 // 로그인 진행이 완료가 되면 session안에 시큐리트의 session을 만들어줌.
@@ -16,14 +20,22 @@ import com.meme.security1.model.User;
 // User오브젝트Type => UserDatails 타입 객체
 
 // Security Session => Authentication => UserDetails 타입
-public class PrincipalDetails implements UserDetails {
+@Data
+public class PrincipalDetails implements UserDetails, OAuth2User {
 
 	private User user; // 콤포지션
+	private Map<String, Object> attributes;
 	
-	// user 생성자
+	// user 생성자 일반로그인 생성자
 	public PrincipalDetails(User user) {
 		this.user = user;
 	}
+	
+	// user 생성자 OAuth로그인 생성자
+	public PrincipalDetails(User user, Map<String, Object> attributes) {
+		this.user = user;
+		this.attributes = attributes;
+	} // constructor
 	
 	// 해당 User의 권한을 리턴하는 곳!!
 	@Override
@@ -77,5 +89,18 @@ public class PrincipalDetails implements UserDetails {
 		// user.getLoginDate 들고와서 현재시간 - 로긴시간 => 1년 초과하면 return false;
 		return true;
 	} // isEnabled
+
+	@Override
+	public Map<String, Object> getAttributes() {
+		
+		return attributes;
+	} // getAttributes
+
+	// 사용안함
+	@Override
+	public String getName() {
+		
+		return null;
+	} // getName
 
 } // end PrincipalDetailClass

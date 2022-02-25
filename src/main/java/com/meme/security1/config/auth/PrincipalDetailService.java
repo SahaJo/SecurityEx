@@ -21,6 +21,7 @@ public class PrincipalDetailService implements UserDetailsService {
 	
 	// 자동호출 함수
 	// 시큐리티 session(내부 Authentication(내부 UserDetails))
+	// 함수 종료시 @AuthenticationPrincipal 어노테이션이 만들어진다
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		// username으로 안받으면 함수 변수이름 때문에 동작을 안함 (매칭 XXX)
