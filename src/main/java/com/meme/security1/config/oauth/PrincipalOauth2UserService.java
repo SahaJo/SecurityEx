@@ -1,5 +1,7 @@
 package com.meme.security1.config.oauth;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.meme.security1.config.auth.PrincipalDetails;
 import com.meme.security1.config.oauth.provider.FacebookUserInfo;
 import com.meme.security1.config.oauth.provider.GoogleUserInfo;
+import com.meme.security1.config.oauth.provider.NaverUserInfo;
 import com.meme.security1.config.oauth.provider.OAuth2UserInfo;
 import com.meme.security1.model.User;
 import com.meme.security1.repository.UserRepository;
@@ -48,8 +51,11 @@ public class PrincipalOauth2UserService extends DefaultOAuth2UserService {
 		} else if (userRequest.getClientRegistration().getRegistrationId().equals("facebook")) {
 			System.out.println("페이스북 로그인 요청!!!");
 			oAuth2UserInfo = new FacebookUserInfo(oauth2User.getAttributes());
+		} else if (userRequest.getClientRegistration().getRegistrationId().equals("naver")) {
+			System.out.println("네이버 로그인 요청!!!");
+			oAuth2UserInfo = new NaverUserInfo((Map)oauth2User.getAttributes().get("response"));
 		} else {
-			System.out.println("구글 로그인 RO 페이스북 로그인만 요청 허가함!!!");
+			System.out.println("구글 로그인 OR 페이스북 OR 네이버 로그인만 요청 허가함!!!");
 		}
 		
 		// super.loadUser(userRequest).getAttributes() 정보 받아와서 강제 회원가입
